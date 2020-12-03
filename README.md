@@ -1,7 +1,7 @@
 # MinecraftAuth/lib
 This is a Java library for querying the [minecraftauth.me](https://minecraftauth.me) service.
 
-This project (nor MinecraftAuthentication as a whole) is associated or endorsed by Minecraft/Mojang.
+This project (nor MinecraftAuthentication as a whole) is __not__ associated with or endorsed by Minecraft/Mojang.
 
 # Maven [![Latest release](https://img.shields.io/github/release/MinecraftAuthentication/lib.svg)](https://github.com/MinecraftAuthentication/lib/releases/latest)
 ```xml

@@ -38,7 +38,7 @@ public class AuthService {
                         .filter(accountType -> accountType.name().equalsIgnoreCase(dynamic.key().convert().intoString()))
                         .findFirst().ifPresent(type -> identifiers.put(type, Account.from(type, dynamic.dget("identifier").convert().intoString()))));
                 return Optional.of(new Identity(identifiers));
-            } catch (ParseException e) {
+            } catch (HttpRequest.HttpRequestException | ParseException e) {
                 throw new LookupException("Failed to parse API response", e);
             }
         } else if (request.code() == 404) {
@@ -65,7 +65,7 @@ public class AuthService {
                 Dynamic response = Dynamic.from(JSON_PARSER.parse(request.body()));
                 String id = response.dget(to.name().toLowerCase() + ".identifier").convert().intoString();
                 return Optional.of(Account.from(to, id));
-            } catch (ParseException e) {
+            } catch (HttpRequest.HttpRequestException | ParseException e) {
                 throw new LookupException("Failed to parse API response", e);
             }
         } else if (request.code() == 404) {

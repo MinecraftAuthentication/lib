@@ -29,7 +29,7 @@ public class AuthService {
         HttpRequest request = HttpRequest.get("https://minecraftauth.me/api/lookup?" + from.name().toLowerCase() + "=" + identifier)
                 .userAgent("MinecraftAuthLib");
 
-        if (request.code() >= 200 && request.code() <= 299) {
+        if (request.code() / 100 == 2) {
             try {
                 Dynamic response = Dynamic.from(JSON_PARSER.parse(request.body()));
 

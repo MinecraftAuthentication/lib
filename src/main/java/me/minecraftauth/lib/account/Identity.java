@@ -1,6 +1,4 @@
-package me.minecraftauth.lib;
-
-import me.minecraftauth.lib.account.*;
+package me.minecraftauth.lib.account;
 
 import java.util.LinkedList;
 import java.util.List;

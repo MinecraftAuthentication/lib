@@ -4,6 +4,7 @@ import alexh.weak.Dynamic;
 import com.github.kevinsawicki.http.HttpRequest;
 import me.minecraftauth.lib.account.Account;
 import me.minecraftauth.lib.account.AccountType;
+import me.minecraftauth.lib.account.Identity;
 import me.minecraftauth.lib.exception.LookupException;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;

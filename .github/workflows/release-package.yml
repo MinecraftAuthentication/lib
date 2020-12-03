@@ -1,6 +1,7 @@
 name: Publish package to Nexus
 
 on:
+  workflow_dispatch:
   release:
     types: [created]
 

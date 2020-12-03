@@ -1,6 +1,6 @@
 package me.minecraftauth.lib.exception;
 
-public class LookupException extends RuntimeException {
+public class LookupException extends Exception {
 
     public LookupException(String message) {
         super(message);

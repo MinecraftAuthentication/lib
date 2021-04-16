@@ -75,6 +75,37 @@ public class AuthService {
         }
     }
 
+    /**
+     * Query if the given Discord user ID has the given Discord role
+     * @param serverToken the server authentication token to query data for
+     * @param userId the Discord user ID to query
+     * @param roleId the Discord role ID to query
+     * @return if the given Discord user has the given role
+     * @throws LookupException if the API returns abnormal error code
+     */
+    public static boolean isSubscribedDiscord(String serverToken, String userId, String roleId) throws LookupException {
+        return isSubscribed(serverToken, AccountType.DISCORD, userId, roleId);
+    }
+    /**
+     * Query if the given Patreon uid is a patron of the server token's Patreon campaign
+     * @param serverToken the server authentication token to query data for
+     * @param uid the Patreon uid to query
+     * @return if the given Patreon uid is a patron of the server token's Patreon campaign
+     * @throws LookupException if the API returns abnormal error code
+     */
+    public static boolean isSubscribedPatreon(String serverToken, int uid) throws LookupException {
+        return isSubscribed(serverToken, AccountType.PATREON, uid, null);
+    }
+    /**
+     * Query if the given Twitch uid is subbed to the server token's Twitch channel
+     * @param serverToken the server authentication token to query data for
+     * @param uid the Twitch uid to query
+     * @return if the given Twitch uid is subbed to the server token's Twitch channel
+     * @throws LookupException if the API returns abnormal error code
+     */
+    public static boolean isSubscribedTwitch(String serverToken, int uid) throws LookupException {
+        return isSubscribed(serverToken, AccountType.TWITCH, uid, null);
+    }
     private static boolean isSubscribed(String serverToken, AccountType accountType, Object identifier, Object data) throws LookupException {
         HttpRequest request = HttpRequest.get("https://minecraftauth.me/api/subscribed/?" + accountType.name().toLowerCase() + "=" + identifier + (data != null ? "&role=" + data : ""))
                 .userAgent("MinecraftAuthLib")
@@ -90,37 +121,6 @@ public class AuthService {
         } else {
             throw new LookupException("MinecraftAuth server returned bad code: " + request.code());
         }
-    }
-    /**
-     * Query if the given Discord user ID has the given Discord role
-     * @param serverToken the server authentication token to query data for
-     * @param userId the Discord user ID to query
-     * @param roleId the Discord role ID to query
-     * @return if the given Discord user has the given role
-     * @throws LookupException if the API returns abnormal error code
-     */
-    public static boolean isSubscribedDiscord(String serverToken, String userId, String roleId) throws LookupException {
-        return isSubscribed(serverToken, AccountType.DISCORD, userId, roleId);
-    }
-    /**
-     * Query if the given Patreon uid is subbed to the server token's Patreon campaign
-     * @param serverToken the server authentication token to query data for
-     * @param uid the Patreon uid to query
-     * @return if the given Patreon uid is subbed to the server token's Patreon campaign
-     * @throws LookupException if the API returns abnormal error code
-     */
-    public static boolean isSubscribedPatreon(String serverToken, int uid) throws LookupException {
-        return isSubscribed(serverToken, AccountType.PATREON, uid, null);
-    }
-    /**
-     * Query if the given Twitch uid is subbed to the server token's Twitch channel
-     * @param serverToken the server authentication token to query data for
-     * @param uid the Twitch uid to query
-     * @return if the given Twitch uid is subbed to the server token's Twitch channel
-     * @throws LookupException if the API returns abnormal error code
-     */
-    public static boolean isSubscribedTwitch(String serverToken, int uid) throws LookupException {
-        return isSubscribed(serverToken, AccountType.TWITCH, uid, null);
     }
 
 }

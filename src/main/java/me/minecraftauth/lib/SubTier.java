@@ -6,14 +6,14 @@ public enum SubTier {
     LEVEL2(2000),
     LEVEL3(3000);
 
-    private final int tier;
+    private final int value;
 
-    SubTier(int tier) {
-        this.tier = tier;
+    SubTier(int value) {
+        this.value = value;
     }
 
-    public int getTier() {
-        return tier;
+    public int getValue() {
+        return value;
     }
 
 }

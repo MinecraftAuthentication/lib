@@ -103,6 +103,18 @@ public class AuthService {
     public static boolean isSubscribedTwitch(String serverToken, UUID minecraftUuid) throws LookupException {
         return isSubscribed(serverToken, AccountType.TWITCH, minecraftUuid, null);
     }
+    /**
+     * Query if the given Twitch uid is subbed to the server token's Twitch channel
+     * @param serverToken the server authentication token to query data for
+     * @param minecraftUuid the Minecraft player UUID to query
+     * @param tier the required tier level to qualify as being subscribed - see {@link SubTier}.
+     *             <strong>multiply this value x1000 what you'd expect.</strong>
+     * @return if the given Twitch uid is subbed to the server token's Twitch channel
+     * @throws LookupException if the API returns abnormal error code
+     */
+    public static boolean isSubscribedTwitch(String serverToken, UUID minecraftUuid, int tier) throws LookupException {
+        return isSubscribed(serverToken, AccountType.TWITCH, minecraftUuid, tier);
+    }
     private static boolean isSubscribed(String serverToken, AccountType platform, UUID minecraftUuid, Object data) throws LookupException {
         HttpRequest request = HttpRequest.get("https://minecraftauth.me/api/subscribed/?platform=" + platform.name().toLowerCase() + "&minecraft=" + minecraftUuid + (data != null ? "&role=" + data : ""))
                 .userAgent("MinecraftAuthLib")

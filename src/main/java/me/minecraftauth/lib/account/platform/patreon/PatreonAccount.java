@@ -1,4 +1,7 @@
-package me.minecraftauth.lib.account;
+package me.minecraftauth.lib.account.platform.patreon;
+
+import me.minecraftauth.lib.account.Account;
+import me.minecraftauth.lib.account.AccountType;
 
 public class PatreonAccount extends Account {
 

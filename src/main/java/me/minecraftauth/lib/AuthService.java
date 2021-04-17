@@ -6,6 +6,7 @@ import me.minecraftauth.lib.account.Account;
 import me.minecraftauth.lib.account.AccountType;
 import me.minecraftauth.lib.account.Identity;
 import me.minecraftauth.lib.exception.LookupException;
+import me.minecraftauth.lib.account.platform.twitch.SubTier;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 

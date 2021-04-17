@@ -2,6 +2,10 @@ package me.minecraftauth.lib.account;
 
 import me.minecraftauth.lib.AuthService;
 import me.minecraftauth.lib.exception.LookupException;
+import me.minecraftauth.lib.account.platform.discord.DiscordAccount;
+import me.minecraftauth.lib.account.platform.minecraft.MinecraftAccount;
+import me.minecraftauth.lib.account.platform.patreon.PatreonAccount;
+import me.minecraftauth.lib.account.platform.twitch.TwitchAccount;
 
 import java.util.Optional;
 import java.util.StringJoiner;

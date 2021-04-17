@@ -1,4 +1,4 @@
-package me.minecraftauth.lib;
+package me.minecraftauth.lib.account.platform.twitch;
 
 public class SubTier {
 

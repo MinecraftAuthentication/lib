@@ -1,4 +1,7 @@
-package me.minecraftauth.lib.account;
+package me.minecraftauth.lib.account.platform.twitch;
+
+import me.minecraftauth.lib.account.Account;
+import me.minecraftauth.lib.account.AccountType;
 
 public class TwitchAccount extends Account {
 

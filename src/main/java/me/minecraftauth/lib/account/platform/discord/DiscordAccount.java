@@ -1,4 +1,7 @@
-package me.minecraftauth.lib.account;
+package me.minecraftauth.lib.account.platform.discord;
+
+import me.minecraftauth.lib.account.Account;
+import me.minecraftauth.lib.account.AccountType;
 
 public class DiscordAccount extends Account {
 

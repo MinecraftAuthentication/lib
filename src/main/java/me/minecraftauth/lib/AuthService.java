@@ -111,7 +111,7 @@ public class AuthService {
         if (request.code() / 100 == 2) {
             try {
                 Dynamic response = Dynamic.from(JSON_PARSER.parse(request.body()));
-                return response.dget("subscribed").convert().intoString().equals("true");
+                return response.dget("result").convert().intoString().equals("true");
             } catch (HttpRequest.HttpRequestException | ParseException e) {
                 throw new LookupException("Failed to parse API response", e);
             }

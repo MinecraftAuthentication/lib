@@ -108,6 +108,17 @@ public class AuthService {
     }
 
     /**
+     * Query if the given Twitch uid is following the server token's Twitch channel
+     * @param serverToken the server authentication token to query data for
+     * @param minecraftUuid the Minecraft player UUID to query
+     * @return if the given Twitch uid is following the server token's Twitch channel
+     * @throws LookupException if the API returns abnormal error code
+     */
+    public static boolean isFollowingTwitch(String serverToken, UUID minecraftUuid) throws LookupException {
+        return isFollowing(serverToken, AccountType.TWITCH, minecraftUuid);
+    }
+
+    /**
      * Query if the given Discord user ID has the given Discord role
      * @param serverToken the server authentication token to query data for
      * @param minecraftUuid the Minecraft player UUID to query

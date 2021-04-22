@@ -26,10 +26,11 @@ public class AuthService {
     public static Optional<Identity> lookup(AccountType from, Object identifier) throws LookupException {
         HttpRequest request = HttpRequest.get("https://minecraftauth.me/api/lookup?" + from.name().toLowerCase() + "=" + identifier)
                 .userAgent("MinecraftAuthLib");
+        String body = request.body();
 
         if (request.code() / 100 == 2) {
             try {
-                Dynamic response = Dynamic.from(JSON_PARSER.parse(request.body()));
+                Dynamic response = Dynamic.from(JSON_PARSER.parse(body));
 
                 Map<AccountType, Account> identifiers = new HashMap<>();
                 response.children().forEach(dynamic -> Arrays.stream(AccountType.values())
@@ -42,7 +43,7 @@ public class AuthService {
         } else if (request.code() == 404) {
             return Optional.empty();
         } else {
-            throw new LookupException("MinecraftAuth server returned bad code: " + request.code());
+            throw new LookupException("MinecraftAuth server returned bad code: " + request.code() + " / " + body);
         }
     }
 
@@ -57,10 +58,11 @@ public class AuthService {
     public static Optional<Account> lookup(AccountType from, Object identifier, AccountType to) throws LookupException {
         HttpRequest request = HttpRequest.get("https://minecraftauth.me/api/lookup/" + to.name().toLowerCase() + "?" + from.name().toLowerCase() + "=" + identifier)
                 .userAgent("MinecraftAuthLib");
+        String body = request.body();
 
         if (request.code() / 100 == 2) {
             try {
-                Dynamic response = Dynamic.from(JSON_PARSER.parse(request.body()));
+                Dynamic response = Dynamic.from(JSON_PARSER.parse(body));
                 String id = response.dget(to.name().toLowerCase() + ".identifier").convert().intoString();
                 return Optional.of(Account.from(to, id));
             } catch (HttpRequest.HttpRequestException | ParseException e) {
@@ -69,7 +71,7 @@ public class AuthService {
         } else if (request.code() == 404) {
             return Optional.empty();
         } else {
-            throw new LookupException("MinecraftAuth server returned bad code: " + request.code());
+            throw new LookupException("MinecraftAuth server returned bad response: " + request.code() + " / " + body);
         }
     }
 
@@ -77,16 +79,17 @@ public class AuthService {
         HttpRequest request = HttpRequest.get("https://minecraftauth.me/api/following?platform=" + platform.name().toLowerCase() + "&minecraft=" + minecraftUuid)
                 .userAgent("MinecraftAuthLib")
                 .authorization("Basic " + serverToken);
+        String body = request.body();
 
         if (request.code() / 100 == 2) {
             try {
-                Dynamic response = Dynamic.from(JSON_PARSER.parse(request.body()));
+                Dynamic response = Dynamic.from(JSON_PARSER.parse(body));
                 return response.dget("result").convert().intoString().equals("true");
             } catch (HttpRequest.HttpRequestException | ParseException e) {
                 throw new LookupException("Failed to parse API response", e);
             }
         } else {
-            throw new LookupException("MinecraftAuth server returned bad code: " + request.code());
+            throw new LookupException("MinecraftAuth server returned bad response: " + request.code() + " / " + body);
         }
     }
 
@@ -94,16 +97,17 @@ public class AuthService {
         HttpRequest request = HttpRequest.get("https://minecraftauth.me/api/subscribed?platform=" + platform.name().toLowerCase() + "&minecraft=" + minecraftUuid + (data != null ? "&role=" + data : ""))
                 .userAgent("MinecraftAuthLib")
                 .authorization("Basic " + serverToken);
+        String body = request.body();
 
         if (request.code() / 100 == 2) {
             try {
-                Dynamic response = Dynamic.from(JSON_PARSER.parse(request.body()));
+                Dynamic response = Dynamic.from(JSON_PARSER.parse(body));
                 return response.dget("result").convert().intoString().equals("true");
             } catch (HttpRequest.HttpRequestException | ParseException e) {
                 throw new LookupException("Failed to parse API response", e);
             }
         } else {
-            throw new LookupException("MinecraftAuth server returned bad code: " + request.code());
+            throw new LookupException("MinecraftAuth server returned bad response: " + request.code() + " / " + body);
         }
     }
 

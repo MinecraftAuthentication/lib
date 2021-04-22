@@ -73,6 +73,40 @@ public class AuthService {
         }
     }
 
+    private static boolean isFollowing(String serverToken, AccountType platform, UUID minecraftUuid) throws LookupException {
+        HttpRequest request = HttpRequest.get("https://minecraftauth.me/api/following?platform=" + platform.name().toLowerCase() + "&minecraft=" + minecraftUuid)
+                .userAgent("MinecraftAuthLib")
+                .authorization("Basic " + serverToken);
+
+        if (request.code() / 100 == 2) {
+            try {
+                Dynamic response = Dynamic.from(JSON_PARSER.parse(request.body()));
+                return response.dget("result").convert().intoString().equals("true");
+            } catch (HttpRequest.HttpRequestException | ParseException e) {
+                throw new LookupException("Failed to parse API response", e);
+            }
+        } else {
+            throw new LookupException("MinecraftAuth server returned bad code: " + request.code());
+        }
+    }
+
+    private static boolean isSubscribed(String serverToken, AccountType platform, UUID minecraftUuid, Object data) throws LookupException {
+        HttpRequest request = HttpRequest.get("https://minecraftauth.me/api/subscribed?platform=" + platform.name().toLowerCase() + "&minecraft=" + minecraftUuid + (data != null ? "&role=" + data : ""))
+                .userAgent("MinecraftAuthLib")
+                .authorization("Basic " + serverToken);
+
+        if (request.code() / 100 == 2) {
+            try {
+                Dynamic response = Dynamic.from(JSON_PARSER.parse(request.body()));
+                return response.dget("result").convert().intoString().equals("true");
+            } catch (HttpRequest.HttpRequestException | ParseException e) {
+                throw new LookupException("Failed to parse API response", e);
+            }
+        } else {
+            throw new LookupException("MinecraftAuth server returned bad code: " + request.code());
+        }
+    }
+
     /**
      * Query if the given Discord user ID has the given Discord role
      * @param serverToken the server authentication token to query data for
@@ -114,22 +148,6 @@ public class AuthService {
      */
     public static boolean isSubscribedTwitch(String serverToken, UUID minecraftUuid, SubTier tier) throws LookupException {
         return isSubscribed(serverToken, AccountType.TWITCH, minecraftUuid, tier.getValue());
-    }
-    private static boolean isSubscribed(String serverToken, AccountType platform, UUID minecraftUuid, Object data) throws LookupException {
-        HttpRequest request = HttpRequest.get("https://minecraftauth.me/api/subscribed/?platform=" + platform.name().toLowerCase() + "&minecraft=" + minecraftUuid + (data != null ? "&role=" + data : ""))
-                .userAgent("MinecraftAuthLib")
-                .authorization("Basic " + serverToken);
-
-        if (request.code() / 100 == 2) {
-            try {
-                Dynamic response = Dynamic.from(JSON_PARSER.parse(request.body()));
-                return response.dget("result").convert().intoString().equals("true");
-            } catch (HttpRequest.HttpRequestException | ParseException e) {
-                throw new LookupException("Failed to parse API response", e);
-            }
-        } else {
-            throw new LookupException("MinecraftAuth server returned bad code: " + request.code());
-        }
     }
 
 }

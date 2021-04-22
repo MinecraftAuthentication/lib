@@ -94,7 +94,7 @@ public class AuthService {
     }
 
     private static boolean isSubscribed(String serverToken, AccountType platform, UUID minecraftUuid, Object data) throws LookupException {
-        HttpRequest request = HttpRequest.get("https://minecraftauth.me/api/subscribed?platform=" + platform.name().toLowerCase() + "&minecraft=" + minecraftUuid + (data != null ? "&role=" + data : ""))
+        HttpRequest request = HttpRequest.get("https://minecraftauth.me/api/subscribed?platform=" + platform.name().toLowerCase() + "&minecraft=" + minecraftUuid + (data != null ? "&data=" + data : ""))
                 .userAgent("MinecraftAuthLib")
                 .authorization("Basic " + serverToken);
         String body = request.body();

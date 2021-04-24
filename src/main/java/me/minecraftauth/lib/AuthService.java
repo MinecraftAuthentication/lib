@@ -112,17 +112,6 @@ public class AuthService {
     }
 
     /**
-     * Query if the given Twitch uid is following the server token's Twitch channel
-     * @param serverToken the server authentication token to query data for
-     * @param minecraftUuid the Minecraft player UUID to query
-     * @return if the given Twitch uid is following the server token's Twitch channel
-     * @throws LookupException if the API returns abnormal error code
-     */
-    public static boolean isFollowingTwitch(String serverToken, UUID minecraftUuid) throws LookupException {
-        return isFollowing(serverToken, AccountType.TWITCH, minecraftUuid);
-    }
-
-    /**
      * Query if the given Discord user ID has the given Discord role
      * @param serverToken the server authentication token to query data for
      * @param minecraftUuid the Minecraft player UUID to query
@@ -133,6 +122,7 @@ public class AuthService {
     public static boolean isSubscribedDiscord(String serverToken, UUID minecraftUuid, String roleId) throws LookupException {
         return isSubscribed(serverToken, AccountType.DISCORD, minecraftUuid, roleId);
     }
+
     /**
      * Query if the given Patreon uid is a patron of the server token's Patreon campaign
      * @param serverToken the server authentication token to query data for
@@ -142,6 +132,17 @@ public class AuthService {
      */
     public static boolean isSubscribedPatreon(String serverToken, UUID minecraftUuid) throws LookupException {
         return isSubscribed(serverToken, AccountType.PATREON, minecraftUuid, null);
+    }
+
+    /**
+     * Query if the given Twitch uid is following the server token's Twitch channel
+     * @param serverToken the server authentication token to query data for
+     * @param minecraftUuid the Minecraft player UUID to query
+     * @return if the given Twitch uid is following the server token's Twitch channel
+     * @throws LookupException if the API returns abnormal error code
+     */
+    public static boolean isFollowingTwitch(String serverToken, UUID minecraftUuid) throws LookupException {
+        return isFollowing(serverToken, AccountType.TWITCH, minecraftUuid);
     }
     /**
      * Query if the given Twitch uid is subbed to the server token's Twitch channel
@@ -163,6 +164,38 @@ public class AuthService {
      */
     public static boolean isSubscribedTwitch(String serverToken, UUID minecraftUuid, SubTier tier) throws LookupException {
         return isSubscribed(serverToken, AccountType.TWITCH, minecraftUuid, tier.getValue());
+    }
+
+    /**
+     * Query if the player's YouTube account is subscribed to the server token's YouTube channel
+     * @param serverToken the server authentication token to query data for
+     * @param minecraftUuid the Minecraft player UUID to query
+     * @return if the player's YouTube account is subscribed to the server token's YouTube channel
+     * @throws LookupException if the API returns abnormal error code
+     */
+    public static boolean isSubscribedYouTube(String serverToken, UUID minecraftUuid) throws LookupException {
+        return isFollowing(serverToken, AccountType.GOOGLE, minecraftUuid);
+    }
+    /**
+     * Query if the player's YouTube account is a paid member of the server token's YouTube channel
+     * @param serverToken the server authentication token to query data for
+     * @param minecraftUuid the Minecraft player UUID to query
+     * @return if the player's YouTube account is a paid member of the server token's YouTube channel
+     * @throws LookupException if the API returns abnormal error code
+     */
+    public static boolean isMemberYouTube(String serverToken, UUID minecraftUuid) throws LookupException {
+        return isSubscribed(serverToken, AccountType.GOOGLE, minecraftUuid, null);
+    }
+    /**
+     * Query if the player's YouTube account is a paid member of the server token's YouTube channel
+     * @param serverToken the server authentication token to query data for
+     * @param minecraftUuid the Minecraft player UUID to query
+     * @param tier the required tier level to qualify as being a member
+     * @return if the player's YouTube account is a paid member of the server token's YouTube channel
+     * @throws LookupException if the API returns abnormal error code
+     */
+    public static boolean isMemberYouTube(String serverToken, UUID minecraftUuid, String tier) throws LookupException {
+        return isSubscribed(serverToken, AccountType.GOOGLE, minecraftUuid, tier);
     }
 
 }

@@ -7,7 +7,8 @@ public enum AccountType {
     DISCORD,
     MINECRAFT,
     PATREON,
-    TWITCH;
+    TWITCH,
+    GOOGLE;
 
     @Override
     public String toString() {

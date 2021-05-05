@@ -119,7 +119,7 @@ public class AuthService {
      * @return if the given Discord user has the given role
      * @throws LookupException if the API returns abnormal error code
      */
-    public static boolean isSubscribedDiscord(String serverToken, UUID minecraftUuid, String roleId) throws LookupException {
+    public static boolean isRolePresent(String serverToken, UUID minecraftUuid, String roleId) throws LookupException {
         return isSubscribed(serverToken, AccountType.DISCORD, minecraftUuid, roleId);
     }
 

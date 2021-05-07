@@ -11,10 +11,30 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 public class AuthService {
 
     private static final JSONParser JSON_PARSER = new JSONParser();
+
+    private static boolean expectResponseBody(HttpRequest request, Predicate<Dynamic> predicate) throws LookupException {
+        int status = request.code();
+        String body = request.body();
+
+        if (status / 100 == 2) {
+            try {
+                Dynamic response = Dynamic.from(JSON_PARSER.parse(body));
+                return predicate.test(response);
+            } catch (HttpRequest.HttpRequestException | ParseException e) {
+                throw new LookupException("Failed to parse API response", e);
+            }
+        } else {
+            throw new LookupException("MinecraftAuth server returned bad response: " + status + " / " + body);
+        }
+    }
+    private static boolean expectTrue(HttpRequest request) throws LookupException {
+        return expectResponseBody(request, dynamic -> dynamic.dget("result").convert().intoString().equals("true"));
+    }
 
     /**
      * Look up all of an identifier's linked accounts
@@ -79,36 +99,29 @@ public class AuthService {
         HttpRequest request = HttpRequest.get("https://minecraftauth.me/api/following?platform=" + platform.name().toLowerCase() + "&minecraft=" + minecraftUuid)
                 .userAgent("MinecraftAuthLib")
                 .authorization("Basic " + serverToken);
-        String body = request.body();
-
-        if (request.code() / 100 == 2) {
-            try {
-                Dynamic response = Dynamic.from(JSON_PARSER.parse(body));
-                return response.dget("result").convert().intoString().equals("true");
-            } catch (HttpRequest.HttpRequestException | ParseException e) {
-                throw new LookupException("Failed to parse API response", e);
-            }
-        } else {
-            throw new LookupException("MinecraftAuth server returned bad response: " + request.code() + " / " + body);
-        }
+        return expectTrue(request);
     }
 
     private static boolean isSubscribed(String serverToken, AccountType platform, UUID minecraftUuid, Object data) throws LookupException {
         HttpRequest request = HttpRequest.get("https://minecraftauth.me/api/subscribed?platform=" + platform.name().toLowerCase() + "&minecraft=" + minecraftUuid + (data != null ? "&data=" + data : ""))
                 .userAgent("MinecraftAuthLib")
                 .authorization("Basic " + serverToken);
-        String body = request.body();
+        return expectTrue(request);
+    }
 
-        if (request.code() / 100 == 2) {
-            try {
-                Dynamic response = Dynamic.from(JSON_PARSER.parse(body));
-                return response.dget("result").convert().intoString().equals("true");
-            } catch (HttpRequest.HttpRequestException | ParseException e) {
-                throw new LookupException("Failed to parse API response", e);
-            }
-        } else {
-            throw new LookupException("MinecraftAuth server returned bad response: " + request.code() + " / " + body);
-        }
+    /**
+     * Query if the given Discord user ID is in the given Discord server
+     * @param serverToken the server authentication token to query data for
+     * @param minecraftUuid the Minecraft player UUID to query
+     * @param serverId the Discord server ID to query
+     * @return if the given Discord user (and the Minecraft Authentication bot) is in the given server
+     * @throws LookupException if the API returns abnormal error code
+     */
+    public static boolean isDiscordMemberPresent(String serverToken, UUID minecraftUuid, String serverId) throws LookupException {
+        HttpRequest request = HttpRequest.get("https://minecraftauth.me/api/discord/present?minecraft=" + minecraftUuid + "&server=" + serverId)
+                .userAgent("MinecraftAuthLib")
+                .authorization("Basic " + serverToken);
+        return expectTrue(request);
     }
 
     /**
@@ -119,7 +132,7 @@ public class AuthService {
      * @return if the given Discord user has the given role
      * @throws LookupException if the API returns abnormal error code
      */
-    public static boolean isRolePresent(String serverToken, UUID minecraftUuid, String roleId) throws LookupException {
+    public static boolean isDiscordRolePresent(String serverToken, UUID minecraftUuid, String roleId) throws LookupException {
         return isSubscribed(serverToken, AccountType.DISCORD, minecraftUuid, roleId);
     }
 

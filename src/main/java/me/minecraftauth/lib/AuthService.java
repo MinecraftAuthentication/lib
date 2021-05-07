@@ -17,6 +17,9 @@ public class AuthService {
 
     private static final JSONParser JSON_PARSER = new JSONParser();
 
+    // prevent instantiation
+    private AuthService() {}
+
     private static boolean expectResponseBody(HttpRequest request, Predicate<Dynamic> predicate) throws LookupException {
         int status = request.code();
         String body = request.body();

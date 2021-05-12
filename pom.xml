@@ -47,6 +47,17 @@
                         <configuration>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                             <minimizeJar>true</minimizeJar>
+
+                            <filters>
+                                <filter>
+                                    <artifact>github.scarsz:configuralize</artifact>
+                                    <excludes>
+                                        <!-- snakeyaml and json simple is already inside craftbukkit -->
+                                        <exclude>org/yaml/snakeyaml/**</exclude>
+                                        <exclude>org/json/simple/**</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
                         </configuration>
                     </execution>
                 </executions>

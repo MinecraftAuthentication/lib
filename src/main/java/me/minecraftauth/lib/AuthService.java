@@ -149,6 +149,17 @@ public class AuthService {
     public static boolean isSubscribedPatreon(String serverToken, UUID minecraftUuid) throws LookupException {
         return isSubscribed(serverToken, AccountType.PATREON, minecraftUuid, null);
     }
+    /**
+     * Query if the given Patreon uid is a patron of the server token's Patreon campaign
+     * @param serverToken the server authentication token to query data for
+     * @param minecraftUuid the Minecraft player UUID to query
+     * @param tierTitle the title of the requested Patreon tier
+     * @return if the given Patreon uid is a patron of the server token's Patreon campaign
+     * @throws LookupException if the API returns abnormal error code
+     */
+    public static boolean isSubscribedPatreon(String serverToken, UUID minecraftUuid, String tierTitle) throws LookupException {
+        return isSubscribed(serverToken, AccountType.PATREON, minecraftUuid, tierTitle);
+    }
 
     /**
      * Query if the given Twitch uid is following the server token's Twitch channel

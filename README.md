@@ -17,7 +17,7 @@ This project (nor MinecraftAuthentication as a whole) is __not__ associated with
     <dependency>
         <groupId>me.minecraftauth</groupId>
         <artifactId>lib</artifactId>
-        <version>LATEST</version>
+        <version>1.0.1</version>
     </dependency>
 </dependencies>
 ```

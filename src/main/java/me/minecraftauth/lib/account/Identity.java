@@ -1,6 +1,7 @@
 package me.minecraftauth.lib.account;
 
 import me.minecraftauth.lib.account.platform.discord.DiscordAccount;
+import me.minecraftauth.lib.account.platform.glimpse.GlimpseAccount;
 import me.minecraftauth.lib.account.platform.minecraft.MinecraftAccount;
 import me.minecraftauth.lib.account.platform.patreon.PatreonAccount;
 import me.minecraftauth.lib.account.platform.twitch.TwitchAccount;
@@ -29,6 +30,9 @@ public class Identity {
     public PatreonAccount getPatreonAccount() {
         return (PatreonAccount) accounts.get(AccountType.PATREON);
     }
+    public GlimpseAccount getGlimpseAccount() {
+        return (GlimpseAccount) accounts.get(AccountType.GLIMPSE);
+    }
     public TwitchAccount getTwitchAccount() {
         return (TwitchAccount) accounts.get(AccountType.TWITCH);
     }
@@ -39,6 +43,7 @@ public class Identity {
         if (accounts.containsKey(AccountType.DISCORD)) list.add(accounts.get(AccountType.DISCORD).toString());
         if (accounts.containsKey(AccountType.MINECRAFT)) list.add(accounts.get(AccountType.MINECRAFT).toString());
         if (accounts.containsKey(AccountType.PATREON)) list.add(accounts.get(AccountType.PATREON).toString());
+        if (accounts.containsKey(AccountType.GLIMPSE)) list.add(accounts.get(AccountType.GLIMPSE).toString());
         if (accounts.containsKey(AccountType.TWITCH)) list.add(accounts.get(AccountType.TWITCH).toString());
         return "Identity{" + String.join(", ", list) + "}";
     }

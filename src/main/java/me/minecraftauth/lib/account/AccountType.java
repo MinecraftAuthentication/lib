@@ -8,6 +8,7 @@ public enum AccountType {
     MINECRAFT,
     PATREON,
     TWITCH,
+    GLIMPSE,
     GOOGLE;
 
     @Override

@@ -126,7 +126,6 @@ public class AuthService {
                 .authorization("Basic " + serverToken);
         return expectTrue(request);
     }
-
     /**
      * Query if the given Discord user ID has the given Discord role
      * @param serverToken the server authentication token to query data for
@@ -159,6 +158,28 @@ public class AuthService {
      */
     public static boolean isSubscribedPatreon(String serverToken, UUID minecraftUuid, String tierTitle) throws LookupException {
         return isSubscribed(serverToken, AccountType.PATREON, minecraftUuid, tierTitle);
+    }
+
+    /**
+     * Query if the given Glimpse user is a sponsor of the server token's Glimpse user
+     * @param serverToken the server authentication token to query data for
+     * @param minecraftUuid the Minecraft player UUID to query
+     * @return if the given Glimpse user is a sponsor of the server token's Glimpse user
+     * @throws LookupException if the API returns abnormal error code
+     */
+    public static boolean isSubscribedGlimpse(String serverToken, UUID minecraftUuid) throws LookupException {
+        return isSubscribed(serverToken, AccountType.GLIMPSE, minecraftUuid, null);
+    }
+    /**
+     * Query if the given Glimpse user is a sponsor of the server token's Glimpse user
+     * @param serverToken the server authentication token to query data for
+     * @param minecraftUuid the Minecraft player UUID to query
+     * @param levelName the name of the requested Glimpse level
+     * @return if the given Glimpse user is a sponsor of the server token's Glimpse user
+     * @throws LookupException if the API returns abnormal error code
+     */
+    public static boolean isSubscribedGlimpse(String serverToken, UUID minecraftUuid, String levelName) throws LookupException {
+        return isSubscribed(serverToken, AccountType.GLIMPSE, minecraftUuid, levelName);
     }
 
     /**

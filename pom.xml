@@ -6,7 +6,7 @@
 
     <groupId>me.minecraftauth</groupId>
     <artifactId>lib</artifactId>
-    <version>1.0.1</version>
+    <version>1.1.0</version>
 
     <distributionManagement>
         <repository>
@@ -47,6 +47,17 @@
                         <configuration>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                             <minimizeJar>true</minimizeJar>
+
+                            <filters>
+                                <filter>
+                                    <artifact>github.scarsz:configuralize</artifact>
+                                    <excludes>
+                                        <!-- snakeyaml and json simple is already inside craftbukkit -->
+                                        <exclude>org/yaml/snakeyaml/**</exclude>
+                                        <exclude>org/json/simple/**</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
                         </configuration>
                     </execution>
                 </executions>
@@ -88,6 +99,7 @@
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
             <version>16.0.1</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.googlecode.json-simple</groupId>

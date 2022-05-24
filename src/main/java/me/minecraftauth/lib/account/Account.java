@@ -1,6 +1,12 @@
 package me.minecraftauth.lib.account;
 
 import me.minecraftauth.lib.AuthService;
+import me.minecraftauth.lib.account.platform.discord.DiscordAccount;
+import me.minecraftauth.lib.account.platform.glimpse.GlimpseAccount;
+import me.minecraftauth.lib.account.platform.google.GoogleAccount;
+import me.minecraftauth.lib.account.platform.minecraft.MinecraftAccount;
+import me.minecraftauth.lib.account.platform.patreon.PatreonAccount;
+import me.minecraftauth.lib.account.platform.twitch.TwitchAccount;
 import me.minecraftauth.lib.exception.LookupException;
 
 import java.util.Optional;
@@ -18,6 +24,10 @@ public abstract class Account {
                 return (T) new MinecraftAccount(UUID.fromString(identifier));
             case PATREON:
                 return (T) new PatreonAccount(Integer.parseInt(identifier));
+            case GLIMPSE:
+                return (T) new GlimpseAccount(identifier);
+            case GOOGLE:
+                return (T) new GoogleAccount(identifier);
             case TWITCH:
                 return (T) new TwitchAccount(Integer.parseInt(identifier));
             default:

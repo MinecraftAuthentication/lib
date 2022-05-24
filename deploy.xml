@@ -1,0 +1,14 @@
+<settings>
+    <servers>
+        <server>
+            <id>scarsz</id>
+            <username>${env.NEXUS_USER}</username>
+            <password>${env.NEXUS_PASS}</password>
+        </server>
+        <server>
+            <id>scarsz-snapshots</id>
+            <username>${env.NEXUS_USER}</username>
+            <password>${env.NEXUS_PASS}</password>
+        </server>
+    </servers>
+</settings>

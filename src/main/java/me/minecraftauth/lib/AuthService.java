@@ -47,7 +47,7 @@ public class AuthService {
      * @throws LookupException if the API returns abnormal error code
      */
     public static Optional<Identity> lookup(AccountType from, Object identifier) throws LookupException {
-        HttpRequest request = HttpRequest.get("https://minecraftauth.me/api/lookup?" + from.name().toLowerCase() + "=" + identifier)
+        HttpRequest request = HttpRequest.get(Environment.HOST + "/api/lookup?" + from.name().toLowerCase() + "=" + identifier)
                 .userAgent("MinecraftAuthLib");
         String body = request.body();
 
@@ -79,7 +79,7 @@ public class AuthService {
      * @throws LookupException if the API returns abnormal error code
      */
     public static Optional<Account> lookup(AccountType from, Object identifier, AccountType to) throws LookupException {
-        HttpRequest request = HttpRequest.get("https://minecraftauth.me/api/lookup/" + to.name().toLowerCase() + "?" + from.name().toLowerCase() + "=" + identifier)
+        HttpRequest request = HttpRequest.get(Environment.HOST + "/api/lookup/" + to.name().toLowerCase() + "?" + from.name().toLowerCase() + "=" + identifier)
                 .userAgent("MinecraftAuthLib");
         String body = request.body();
 
@@ -99,14 +99,14 @@ public class AuthService {
     }
 
     private static boolean isFollowing(String serverToken, AccountType platform, UUID minecraftUuid) throws LookupException {
-        HttpRequest request = HttpRequest.get("https://minecraftauth.me/api/following?platform=" + platform.name().toLowerCase() + "&minecraft=" + minecraftUuid)
+        HttpRequest request = HttpRequest.get(Environment.HOST + "/api/following?platform=" + platform.name().toLowerCase() + "&minecraft=" + minecraftUuid)
                 .userAgent("MinecraftAuthLib")
                 .authorization("Basic " + serverToken);
         return expectTrue(request);
     }
 
     private static boolean isSubscribed(String serverToken, AccountType platform, UUID minecraftUuid, Object data) throws LookupException {
-        HttpRequest request = HttpRequest.get("https://minecraftauth.me/api/subscribed?platform=" + platform.name().toLowerCase() + "&minecraft=" + minecraftUuid + (data != null ? "&data=" + data : ""))
+        HttpRequest request = HttpRequest.get(Environment.HOST + "/api/subscribed?platform=" + platform.name().toLowerCase() + "&minecraft=" + minecraftUuid + (data != null ? "&data=" + data : ""))
                 .userAgent("MinecraftAuthLib")
                 .authorization("Basic " + serverToken);
         return expectTrue(request);
@@ -121,7 +121,7 @@ public class AuthService {
      * @throws LookupException if the API returns abnormal error code
      */
     public static boolean isDiscordMemberPresent(String serverToken, UUID minecraftUuid, String serverId) throws LookupException {
-        HttpRequest request = HttpRequest.get("https://minecraftauth.me/api/discord/present?minecraft=" + minecraftUuid + "&server=" + serverId)
+        HttpRequest request = HttpRequest.get(Environment.HOST + "/api/discord/present?minecraft=" + minecraftUuid + "&server=" + serverId)
                 .userAgent("MinecraftAuthLib")
                 .authorization("Basic " + serverToken);
         return expectTrue(request);
